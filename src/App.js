@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useSate } from 'react';
 import './App.css';
 
-import firebase from 'firebase/compat/app'; 
-import 'firebase/compat/firestore'; 
-import { } 'firebase/compat/auth'; 
+import { initializeApp } from 'firebase/app'; 
+import { getFirestore, collection, query } from 'firebase/firestore'; 
+import { getAuth, onAuthStateChanged, GoogleAuthProvider } from 'firebase/auth';
 
 import { useAuthSate } from 'react-firebase-hooks/auth'; 
 import { useCollectionData } from 'react-firebase-hooks/firestore'; 
 
 const firebaseConfig = { 
-  //
+  // config here
 };
 
-firebase.initializeApp(firebaseConfig)
+const firebaseApp = initializeApp(firebaseConfig)
 
-const auth = firebase.auth(); 
-const firestore = firebase.firestore(); 
+const auth = getAuth(firebaseApp); 
+const db = getFirestore(firebaseApp); 
 
 const [user] = useAuthSate(auth); 
 
@@ -38,8 +38,8 @@ function App() {
 function LogIn() { 
 
   const signInWithGmail = () => { 
-    const provider = new firebase.auth.GoogleAuthProvider(); 
-    auth.signinWithPopup(provider); 
+    const provider = new GoogleAuthProvider(); 
+    auth.signinWithPopup(provider);
   } 
 
   return ( 
